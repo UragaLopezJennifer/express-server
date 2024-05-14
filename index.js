@@ -9,15 +9,19 @@ const port = 3000
 
 
 // allow statoc assets in public folder
-app.use(express.static('public')
+app.use(express.static('public'))
 
+const root = require('path').join(__dirname, '../client', 'dist')
+app.use(express.static(root))
 
-)
 // define our server routes
 
 app.get('/', ( req, res )=>{
-    res.send("Server running functionally!")
+    res.sendFile('index.html', { root })
+   // res.send("Server running functionally!")
 })
+
+
 
 app.get('/test', ( req, res )=>{
     // do something when the server processes this request
@@ -26,10 +30,12 @@ app.get('/test', ( req, res )=>{
     res.send("Server is operational")
 })
 
-
+app.post('/api', ( req, res ) =>{
+    res.send("Recieved post request!")
+})
 
 
 // run our server to listen at the port we defined
 app.listen(port, ()=>{
-    console.log('Server is running on port ${port}')
+    console.log(`Server is running on port ${port}`)
 })
